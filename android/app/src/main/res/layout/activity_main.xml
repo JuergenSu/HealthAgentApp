@@ -1,164 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:padding="24dp">
-
-            <TextView
-                android:id="@+id/screen_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?attr/textAppearanceHeadlineMedium" />
-
-            <TextView
-                android:id="@+id/screen_body"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:gravity="center"
-                android:textAppearance="?attr/textAppearanceBodyLarge" />
-
-            <LinearLayout
-                android:id="@+id/today_diagnostics_panel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Health Connect tester diagnostics"
-                    android:textAppearance="?attr/textAppearanceTitleMedium" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/today_previous_day"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Previous" />
-
-                    <TextView
-                        android:id="@+id/today_selected_date"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:textAppearance="?attr/textAppearanceTitleSmall" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/today_next_day"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Next" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/today_health_connect_status"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:textAppearance="?attr/textAppearanceBodyMedium" />
-
-                <TextView
-                    android:id="@+id/today_sync_diagnostics"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:textAppearance="?attr/textAppearanceBodyMedium" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/update_health_data"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="@string/update_health_data" />
-
-                <TextView
-                    android:id="@+id/today_empty_state"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:textAppearance="?attr/textAppearanceBodyMedium"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/today_health_metrics"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="monospace"
-                    android:textIsSelectable="true"
-                    android:textAppearance="?attr/textAppearanceBodyMedium" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/health_permissions_panel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/health_sync_status"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:text="@string/health_sync_never"
-                    android:textAppearance="?attr/textAppearanceBodyMedium" />
-
-                <TextView
-                    android:id="@+id/health_permissions_status"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?attr/textAppearanceBodyMedium" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/request_health_permissions"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/request_health_permissions" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/request_optional_health_permissions"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/request_optional_health_permissions" />
-            </LinearLayout>
-
-        </LinearLayout>
-    </ScrollView>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:labelVisibilityMode="labeled"
-        app:menu="@menu/bottom_navigation_menu" />
-
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
+ <ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"><LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_horizontal" android:orientation="vertical" android:padding="24dp">
+  <TextView android:id="@+id/screen_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textAppearance="?attr/textAppearanceHeadlineMedium" />
+  <TextView android:id="@+id/screen_body" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:gravity="center" android:textAppearance="?attr/textAppearanceBodyLarge" />
+  <LinearLayout android:id="@+id/today_diagnostics_panel" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:orientation="vertical" android:visibility="gone">
+   <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Health Connect tester diagnostics" android:textAppearance="?attr/textAppearanceTitleMedium" />
+   <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:gravity="center_vertical" android:orientation="horizontal"><com.google.android.material.button.MaterialButton android:id="@+id/today_previous_day" style="?attr/materialButtonOutlinedStyle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Previous" /><TextView android:id="@+id/today_selected_date" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:textAppearance="?attr/textAppearanceTitleSmall" /><com.google.android.material.button.MaterialButton android:id="@+id/today_next_day" style="?attr/materialButtonOutlinedStyle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Next" /></LinearLayout>
+   <TextView android:id="@+id/today_health_connect_status" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" /><TextView android:id="@+id/today_sync_diagnostics" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" />
+   <com.google.android.material.button.MaterialButton android:id="@+id/update_health_data" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:text="@string/update_health_data" /><TextView android:id="@+id/today_empty_state" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:visibility="gone" /><TextView android:id="@+id/today_health_metrics" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:fontFamily="monospace" android:textIsSelectable="true" />
+  </LinearLayout>
+  <LinearLayout android:id="@+id/health_permissions_panel" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="24dp" android:orientation="vertical" android:visibility="gone">
+   <com.google.android.material.button.MaterialButton android:id="@+id/edit_fitness_profile" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Edit fitness profile &amp; availability" />
+   <TextView android:id="@+id/health_sync_status" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:layout_marginBottom="16dp" android:text="@string/health_sync_never" /><TextView android:id="@+id/health_permissions_status" android:layout_width="match_parent" android:layout_height="wrap_content" />
+   <com.google.android.material.button.MaterialButton android:id="@+id/request_health_permissions" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:text="@string/request_health_permissions" /><com.google.android.material.button.MaterialButton android:id="@+id/request_optional_health_permissions" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="@string/request_optional_health_permissions" />
+  </LinearLayout>
+ </LinearLayout></ScrollView>
+ <com.google.android.material.bottomnavigation.BottomNavigationView android:id="@+id/bottom_navigation" android:layout_width="match_parent" android:layout_height="wrap_content" app:labelVisibilityMode="labeled" app:menu="@menu/bottom_navigation_menu" />
 </LinearLayout>
