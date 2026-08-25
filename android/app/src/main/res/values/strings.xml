@@ -12,5 +12,11 @@
     <string name="placeholder_plan">Training plan will be implemented in later issues.</string>
     <string name="placeholder_progress">Progress analytics will be implemented in later issues.</string>
     <string name="placeholder_coach">Conversational coach will be implemented in later issues.</string>
-    <string name="placeholder_profile">Profile and settings will be implemented in later issues.</string>
+    <string name="placeholder_profile">Health Connect permissions can be managed below. Other profile settings will be implemented later.</string>
+
+    <string name="request_health_permissions">Grant health data access</string>
+    <string name="request_optional_health_permissions">Grant history/background access</string>
+    <string name="health_connect_unavailable">Health Connect is not available on this device.</string>
+    <string name="health_permission_usage_title">Health Connect access</string>
+    <string name="health_permission_usage_body">HealthAgentApp reads only the health and fitness data you explicitly allow. Data is processed locally for coaching and can be revoked at any time in Health Connect settings.</string>
 </resources>
