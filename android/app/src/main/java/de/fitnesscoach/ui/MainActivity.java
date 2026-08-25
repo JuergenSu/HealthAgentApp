@@ -7,6 +7,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.health.connect.client.HealthConnectClient;
 import androidx.health.connect.client.contracts.HealthPermissionsRequestContract;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -24,12 +25,15 @@ import de.fitnesscoach.health.HealthPermissionSnapshot;
 import de.fitnesscoach.health.HealthPermissionSpec;
 import de.fitnesscoach.health.HealthSyncResult;
 import de.fitnesscoach.health.HealthSyncService;
+import de.fitnesscoach.ui.today.TodayDiagnosticsUiState;
+import de.fitnesscoach.ui.today.TodayDiagnosticsViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private HealthPermissionManager healthPermissionManager;
     private ActivityResultLauncher<Set<? extends String>> healthPermissionLauncher;
+    private TodayDiagnosticsViewModel todayDiagnosticsViewModel;
     private final ExecutorService healthExecutor = Executors.newSingleThreadExecutor();
     private final AtomicBoolean syncInProgress = new AtomicBoolean(false);
 
@@ -40,11 +44,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         healthPermissionManager = new HealthPermissionManager(this);
+        todayDiagnosticsViewModel = new ViewModelProvider(this).get(TodayDiagnosticsViewModel.class);
+        todayDiagnosticsViewModel.getState().observe(this, this::renderTodayDiagnostics);
+        binding.todayPreviousDay.setOnClickListener(v -> todayDiagnosticsViewModel.previousDay());
+        binding.todayNextDay.setOnClickListener(v -> todayDiagnosticsViewModel.nextDay());
+
         healthPermissionLauncher = registerForActivityResult(
                 new HealthPermissionsRequestContract(HealthConnectClient.DEFAULT_PROVIDER_PACKAGE_NAME),
                 granted -> {
                     refreshHealthPermissionStatus();
                     triggerInitialSyncIfNeeded();
+                    todayDiagnosticsViewModel.refresh();
                 });
 
         binding.requestHealthPermissions.setOnClickListener(v -> {
@@ -65,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
             binding.bottomNavigation.setSelectedItemId(R.id.nav_today);
         }
         triggerInitialSyncIfNeeded();
+        todayDiagnosticsViewModel.refresh();
     }
 
     @Override
@@ -72,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         refreshHealthPermissionStatus();
         refreshSyncStatus();
+        if (todayDiagnosticsViewModel != null) todayDiagnosticsViewModel.refresh();
     }
 
     @Override
@@ -82,8 +94,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void showDestination(int itemId) {
         binding.healthPermissionsPanel.setVisibility(itemId == R.id.nav_profile ? View.VISIBLE : View.GONE);
+        binding.todayDiagnosticsPanel.setVisibility(itemId == R.id.nav_today ? View.VISIBLE : View.GONE);
         if (itemId == R.id.nav_today) {
             setPlaceholder(R.string.nav_today, R.string.placeholder_today);
+            todayDiagnosticsViewModel.refresh();
         } else if (itemId == R.id.nav_plan) {
             setPlaceholder(R.string.nav_plan, R.string.placeholder_plan);
         } else if (itemId == R.id.nav_progress) {
@@ -95,6 +109,36 @@ public class MainActivity extends AppCompatActivity {
             refreshHealthPermissionStatus();
             refreshSyncStatus();
         }
+    }
+
+    private void renderTodayDiagnostics(TodayDiagnosticsUiState state) {
+        if (binding == null || state == null) return;
+        binding.todaySelectedDate.setText(state.date.toString());
+        binding.todayNextDay.setEnabled(state.date.isBefore(java.time.LocalDate.now()));
+        binding.todayHealthConnectStatus.setText(state.healthConnectAvailable
+                ? "Health Connect: available"
+                : "Health Connect: unavailable");
+
+        StringBuilder sync = new StringBuilder();
+        sync.append("Last attempt: ").append(formatInstantOrNever(state.lastAttemptAt)).append('\n');
+        sync.append("Last success: ").append(formatInstantOrNever(state.lastSuccessfulSyncAt)).append('\n');
+        sync.append("Aggregated data for selected day: ").append(state.hasDailyData ? "yes" : "no");
+        if (state.lastSyncError != null && !state.lastSyncError.isBlank()) {
+            sync.append("\nLast error: ").append(state.lastSyncError);
+        }
+        binding.todaySyncDiagnostics.setText(sync.toString());
+
+        binding.todayEmptyState.setVisibility(state.hasDailyData ? View.GONE : View.VISIBLE);
+        binding.todayEmptyState.setText(state.emptyMessage == null ? "" : state.emptyMessage);
+
+        StringBuilder metrics = new StringBuilder();
+        for (TodayDiagnosticsUiState.MetricRow row : state.metrics) {
+            metrics.append(row.label).append("\n")
+                    .append("  Value: ").append(row.value).append('\n')
+                    .append("  Quality: ").append(row.quality).append('\n')
+                    .append("  ").append(row.explanation).append("\n\n");
+        }
+        binding.todayHealthMetrics.setText(metrics.toString().trim());
     }
 
     private void refreshHealthPermissionStatus() {
@@ -131,8 +175,11 @@ public class MainActivity extends AppCompatActivity {
                 if (state != null && state.lastSuccessfulSyncAt != null) return;
                 runOnUiThread(() -> binding.healthSyncStatus.setText(R.string.health_sync_running));
                 HealthSyncResult result = new HealthSyncService(this).sync();
-                runOnUiThread(() -> binding.healthSyncStatus.setText(
-                        result.isSuccessful() ? formatLastSync(result.getCompletedAt()) : getString(R.string.health_sync_failed)));
+                runOnUiThread(() -> {
+                    binding.healthSyncStatus.setText(
+                            result.isSuccessful() ? formatLastSync(result.getCompletedAt()) : getString(R.string.health_sync_failed));
+                    todayDiagnosticsViewModel.refresh();
+                });
             } finally {
                 syncInProgress.set(false);
             }
@@ -161,9 +208,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String formatLastSync(java.time.Instant instant) {
+        return getString(R.string.health_sync_last_success, formatInstant(instant));
+    }
+
+    private String formatInstantOrNever(java.time.Instant instant) {
+        return instant == null ? "never" : formatInstant(instant);
+    }
+
+    private String formatInstant(java.time.Instant instant) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
                 .withZone(ZoneId.systemDefault());
-        return getString(R.string.health_sync_last_success, formatter.format(instant));
+        return formatter.format(instant);
     }
 
     private String statusSymbol(HealthPermissionSnapshot.State state) {

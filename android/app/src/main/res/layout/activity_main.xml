@@ -32,6 +32,82 @@
                 android:textAppearance="?attr/textAppearanceBodyLarge" />
 
             <LinearLayout
+                android:id="@+id/today_diagnostics_panel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Health Connect tester diagnostics"
+                    android:textAppearance="?attr/textAppearanceTitleMedium" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/today_previous_day"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Previous" />
+
+                    <TextView
+                        android:id="@+id/today_selected_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textAppearance="?attr/textAppearanceTitleSmall" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/today_next_day"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Next" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/today_health_connect_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:textAppearance="?attr/textAppearanceBodyMedium" />
+
+                <TextView
+                    android:id="@+id/today_sync_diagnostics"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textAppearance="?attr/textAppearanceBodyMedium" />
+
+                <TextView
+                    android:id="@+id/today_empty_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/today_health_metrics"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="monospace"
+                    android:textIsSelectable="true"
+                    android:textAppearance="?attr/textAppearanceBodyMedium" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/health_permissions_panel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
