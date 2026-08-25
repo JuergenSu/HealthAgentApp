@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HealthAgentApp</string>
+
+    <string name="nav_today">Today</string>
+    <string name="nav_plan">Plan</string>
+    <string name="nav_progress">Progress</string>
+    <string name="nav_coach">Coach</string>
+    <string name="nav_profile">Profile</string>
+
+    <string name="placeholder_today">Daily health and training overview will be implemented in later issues.</string>
+    <string name="placeholder_plan">Training plan will be implemented in later issues.</string>
+    <string name="placeholder_progress">Progress analytics will be implemented in later issues.</string>
+    <string name="placeholder_coach">Conversational coach will be implemented in later issues.</string>
+    <string name="placeholder_profile">Profile and settings will be implemented in later issues.</string>
+</resources>
