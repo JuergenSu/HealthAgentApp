@@ -2,7 +2,7 @@
 
 Local-first Android fitness coach using Health Connect and OpenAI.
 
-The application reads Health Connect data into a local Android data model, calculates fitness/recovery/training-plan state deterministically on-device, and adds a conversational OpenAI coach through a stateless Java/Spring Boot gateway.
+The application reads Health Connect data into a local Android data model, calculates fitness/recovery/training-plan state deterministically on-device, and adds a conversational OpenAI coach through a stateless PHP/Symfony gateway.
 
 ## Start here
 - [Complete project plan](PROJECT_PLAN.md)
@@ -21,7 +21,7 @@ Android Java App
      |
      | minimal structured CoachContext + tool protocol
      v
-Spring Boot Coach Gateway
+PHP 8.3+ / Symfony 7.4 Coach Gateway
      |
      v
 OpenAI Responses API
