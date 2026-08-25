@@ -14,6 +14,9 @@ public class GoalEntity {
     public LocalDate targetDate;
     public Double targetValue;
     public String targetUnit;
+    public Double startingValue;
+    public String startingUnit;
+    public String startingSituation;
     public int priority;
     public DomainEnums.GoalStatus status;
     public Instant createdAt;
