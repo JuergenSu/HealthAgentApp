@@ -1,0 +1,5 @@
+package de.fitnesscoach.domain.fitness;
+
+import java.time.Instant;import de.fitnesscoach.data.entity.CheckInEntity;import de.fitnesscoach.data.repository.FitnessCoachRepository;
+
+public final class CheckInService {private final FitnessCoachRepository repo;private final FitnessIntelligenceService intelligence;public CheckInService(FitnessCoachRepository repo){this.repo=repo;this.intelligence=new FitnessIntelligenceService(repo);}public void save(CheckInEntity c){if(c==null||c.date==null)throw new IllegalArgumentException("date required");validateRequired(c.energy,"energy");validateRequired(c.muscleFatigue,"muscleFatigue");validateRequired(c.motivation,"motivation");if(c.stress!=null)validate(c.stress,"stress");c.createdAt=Instant.now();repo.saveCheckIn(c);intelligence.refresh(c.date);}private static void validateRequired(Integer v,String n){if(v==null)throw new IllegalArgumentException(n+" required");validate(v,n);}private static void validate(int v,String n){if(v<1||v>5)throw new IllegalArgumentException(n+" must be 1..5");}}
