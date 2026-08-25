@@ -32,3 +32,9 @@ jobs:
           gradle-version: '9.5.0'
       - name: Build and unit test
         run: gradle -p android --no-daemon clean assembleDebug assembleAndroidTest test
+      - name: Upload generated Room schemas
+        uses: actions/upload-artifact@v4
+        with:
+          name: room-schemas
+          path: android/app/schemas/
+          if-no-files-found: error

@@ -14,6 +14,7 @@ import de.fitnesscoach.data.entity.WorkoutEntity;
 public interface WorkoutDao {
     @Insert(onConflict = OnConflictStrategy.ABORT) long insertWorkout(WorkoutEntity entity);
     @Update void updateWorkout(WorkoutEntity entity);
+    @Query("SELECT * FROM workouts WHERE externalRecordId = :externalRecordId LIMIT 1") WorkoutEntity getByExternalRecordId(String externalRecordId);
     @Query("SELECT * FROM workouts ORDER BY startTime DESC") List<WorkoutEntity> getWorkouts();
     @Insert(onConflict = OnConflictStrategy.ABORT) long insertPlanned(PlannedWorkoutEntity entity);
     @Update void updatePlanned(PlannedWorkoutEntity entity);
