@@ -51,14 +51,23 @@ public class HealthPermissionManager {
         return new HealthPermissionSnapshot(available, states);
     }
 
-    public Set<String> getRequestablePermissions(boolean includeOptional) {
+    public Set<String> getMissingRequiredPermissions() {
+        return getMissingPermissions(false, false);
+    }
+
+    public Set<String> getMissingOptionalPermissions() {
+        return getMissingPermissions(true, true);
+    }
+
+    private Set<String> getMissingPermissions(boolean includeOptional, boolean optionalOnly) {
         HealthPermissionSnapshot snapshot = getSnapshot();
         Set<String> result = new LinkedHashSet<>();
         if (!snapshot.isHealthConnectAvailable()) return result;
 
         for (HealthPermissionSpec spec : HealthPermissionSpec.values()) {
-            if (spec.isOptional() && !includeOptional) continue;
-            if (snapshot.getState(spec) != HealthPermissionSnapshot.State.UNSUPPORTED) {
+            if (optionalOnly && !spec.isOptional()) continue;
+            if (!includeOptional && spec.isOptional()) continue;
+            if (snapshot.getState(spec) == HealthPermissionSnapshot.State.DENIED) {
                 result.add(spec.getPermission());
             }
         }
@@ -66,8 +75,8 @@ public class HealthPermissionManager {
     }
 
     /**
-     * Called by synchronization code before every read. A denied permission simply disables
-     * that record type; it is not treated as a global synchronization failure.
+     * Synchronization must call this before each record-type read. A denied permission only
+     * disables that type and never turns a partial grant into a global sync failure.
      */
     public boolean canRead(HealthPermissionSpec permission) {
         if (permission.isOptional()) return false;
