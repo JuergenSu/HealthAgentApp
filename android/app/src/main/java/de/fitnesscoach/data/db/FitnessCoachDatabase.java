@@ -19,7 +19,7 @@ import de.fitnesscoach.data.entity.*;
         CheckInEntity.class, BaselineEntity.class, RecoveryEntity.class,
         CoachMemoryEntity.class, CoachDecisionEntity.class,
         HealthRecordEntity.class, HealthDailyAggregateEntity.class, HealthSyncStateEntity.class
-}, version = 2, exportSchema = true)
+}, version = 3, exportSchema = true)
 @TypeConverters(RoomConverters.class)
 public abstract class FitnessCoachDatabase extends RoomDatabase {
     public abstract ProfileDao profileDao();
