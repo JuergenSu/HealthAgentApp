@@ -24,6 +24,9 @@ public class HealthSyncWorker extends Worker {
         HealthSyncResult result = new HealthSyncCoordinator(getApplicationContext()).runSync();
         if (result.isSuccessful()) return Result.success();
         if (HealthSyncPolicy.shouldRetryWorker(result, getRunAttemptCount())) return Result.retry();
-        return Result.failure();
+
+        // The failure is already persisted by HealthSyncService. Treat the exhausted attempt as
+        // complete so WorkManager keeps the periodic schedule alive for the next daily run.
+        return Result.success();
     }
 }
