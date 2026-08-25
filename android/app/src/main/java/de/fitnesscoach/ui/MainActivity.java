@@ -8,19 +8,30 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.health.connect.client.HealthConnectClient;
 import androidx.health.connect.client.contracts.HealthPermissionsRequestContract;
 
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import de.fitnesscoach.R;
+import de.fitnesscoach.data.db.FitnessCoachDatabase;
+import de.fitnesscoach.data.entity.HealthSyncStateEntity;
 import de.fitnesscoach.databinding.ActivityMainBinding;
 import de.fitnesscoach.health.HealthPermissionManager;
 import de.fitnesscoach.health.HealthPermissionSnapshot;
 import de.fitnesscoach.health.HealthPermissionSpec;
+import de.fitnesscoach.health.HealthSyncResult;
+import de.fitnesscoach.health.HealthSyncService;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private HealthPermissionManager healthPermissionManager;
     private ActivityResultLauncher<Set<? extends String>> healthPermissionLauncher;
+    private final ExecutorService healthExecutor = Executors.newSingleThreadExecutor();
+    private final AtomicBoolean syncInProgress = new AtomicBoolean(false);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +42,10 @@ public class MainActivity extends AppCompatActivity {
         healthPermissionManager = new HealthPermissionManager(this);
         healthPermissionLauncher = registerForActivityResult(
                 new HealthPermissionsRequestContract(HealthConnectClient.DEFAULT_PROVIDER_PACKAGE_NAME),
-                granted -> refreshHealthPermissionStatus());
+                granted -> {
+                    refreshHealthPermissionStatus();
+                    triggerInitialSyncIfNeeded();
+                });
 
         binding.requestHealthPermissions.setOnClickListener(v -> {
             Set<String> missing = healthPermissionManager.getMissingRequiredPermissions();
@@ -50,13 +64,20 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             binding.bottomNavigation.setSelectedItemId(R.id.nav_today);
         }
+        triggerInitialSyncIfNeeded();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        // Permissions may have been revoked or granted in Health Connect settings while away.
         refreshHealthPermissionStatus();
+        refreshSyncStatus();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        healthExecutor.shutdownNow();
     }
 
     private void showDestination(int itemId) {
@@ -72,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (itemId == R.id.nav_profile) {
             setPlaceholder(R.string.nav_profile, R.string.placeholder_profile);
             refreshHealthPermissionStatus();
+            refreshSyncStatus();
         }
     }
 
@@ -97,6 +119,51 @@ public class MainActivity extends AppCompatActivity {
         binding.requestHealthPermissions.setEnabled(!snapshot.allRequiredGranted());
         binding.requestOptionalHealthPermissions.setEnabled(
                 !healthPermissionManager.getMissingOptionalPermissions().isEmpty());
+    }
+
+    private void triggerInitialSyncIfNeeded() {
+        HealthPermissionSnapshot snapshot = healthPermissionManager.getSnapshot();
+        if (!hasAnyRequiredGrant(snapshot) || !syncInProgress.compareAndSet(false, true)) return;
+
+        healthExecutor.execute(() -> {
+            try {
+                HealthSyncStateEntity state = FitnessCoachDatabase.getInstance(this).healthSyncDao().getState();
+                if (state != null && state.lastSuccessfulSyncAt != null) return;
+                runOnUiThread(() -> binding.healthSyncStatus.setText(R.string.health_sync_running));
+                HealthSyncResult result = new HealthSyncService(this).sync();
+                runOnUiThread(() -> binding.healthSyncStatus.setText(
+                        result.isSuccessful() ? formatLastSync(result.getCompletedAt()) : getString(R.string.health_sync_failed)));
+            } finally {
+                syncInProgress.set(false);
+            }
+        });
+    }
+
+    private boolean hasAnyRequiredGrant(HealthPermissionSnapshot snapshot) {
+        for (HealthPermissionSpec spec : HealthPermissionSpec.values()) {
+            if (!spec.isOptional() && snapshot.getState(spec) == HealthPermissionSnapshot.State.GRANTED) return true;
+        }
+        return false;
+    }
+
+    private void refreshSyncStatus() {
+        healthExecutor.execute(() -> {
+            HealthSyncStateEntity state = FitnessCoachDatabase.getInstance(this).healthSyncDao().getState();
+            runOnUiThread(() -> {
+                if (state == null || state.lastSuccessfulSyncAt == null) {
+                    binding.healthSyncStatus.setText(state != null && state.lastError != null
+                            ? R.string.health_sync_failed : R.string.health_sync_never);
+                } else {
+                    binding.healthSyncStatus.setText(formatLastSync(state.lastSuccessfulSyncAt));
+                }
+            });
+        });
+    }
+
+    private String formatLastSync(java.time.Instant instant) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+                .withZone(ZoneId.systemDefault());
+        return getString(R.string.health_sync_last_success, formatter.format(instant));
     }
 
     private String statusSymbol(HealthPermissionSnapshot.State state) {
