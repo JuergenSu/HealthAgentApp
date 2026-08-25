@@ -11,6 +11,8 @@ public class UserProfileEntity {
     public String sex;
     public Double heightCm;
     public DomainEnums.FitnessLevel fitnessLevel;
+    /** Comma-separated SportType names; kept scalar to make Room migrations explicit and portable. */
+    public String preferredSports;
     public String preferredTrainingTime;
     public Instant createdAt;
     public Instant updatedAt;

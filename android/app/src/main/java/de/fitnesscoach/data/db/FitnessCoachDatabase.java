@@ -19,7 +19,7 @@ import de.fitnesscoach.data.entity.*;
         CheckInEntity.class, BaselineEntity.class, RecoveryEntity.class,
         CoachMemoryEntity.class, CoachDecisionEntity.class,
         HealthRecordEntity.class, HealthDailyAggregateEntity.class, HealthSyncStateEntity.class
-}, version = 3, exportSchema = true)
+}, version = 4, exportSchema = true)
 @TypeConverters(RoomConverters.class)
 public abstract class FitnessCoachDatabase extends RoomDatabase {
     public abstract ProfileDao profileDao();
@@ -30,16 +30,10 @@ public abstract class FitnessCoachDatabase extends RoomDatabase {
     public abstract CoachingDao coachingDao();
 
     private static volatile FitnessCoachDatabase INSTANCE;
-
     public static FitnessCoachDatabase getInstance(Context context) {
-        if (INSTANCE == null) {
-            synchronized (FitnessCoachDatabase.class) {
-                if (INSTANCE == null) {
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), FitnessCoachDatabase.class, "fitness-coach.db")
-                            .addMigrations(DatabaseMigrations.ALL)
-                            .build();
-                }
-            }
+        if (INSTANCE == null) synchronized (FitnessCoachDatabase.class) {
+            if (INSTANCE == null) INSTANCE = Room.databaseBuilder(context.getApplicationContext(), FitnessCoachDatabase.class, "fitness-coach.db")
+                    .addMigrations(DatabaseMigrations.ALL).build();
         }
         return INSTANCE;
     }
