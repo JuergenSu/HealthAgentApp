@@ -151,7 +151,8 @@ public class HealthSyncService {
         if (previous != null && previous.lastSuccessfulSyncAt != null) {
             return previous.lastSuccessfulSyncAt.minus(INCREMENTAL_OVERLAP_HOURS, ChronoUnit.HOURS);
         }
-        boolean historyGranted = permissions.getSnapshot().canRead(HealthPermissionSpec.HISTORY_READ);
+        boolean historyGranted = permissions.getSnapshot().getState(HealthPermissionSpec.HISTORY_READ)
+                == HealthPermissionSnapshot.State.GRANTED;
         return end.minus(historyGranted ? EXTENDED_HISTORY_DAYS : DEFAULT_HISTORY_DAYS, ChronoUnit.DAYS);
     }
 
