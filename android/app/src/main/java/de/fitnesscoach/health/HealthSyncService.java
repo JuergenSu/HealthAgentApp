@@ -9,13 +9,13 @@ import android.health.connect.LocalTimeRangeFilter;
 import android.health.connect.ReadRecordsRequestUsingFilters;
 import android.health.connect.ReadRecordsResponse;
 import android.health.connect.datatypes.ActiveCaloriesBurnedRecord;
+import android.health.connect.datatypes.DistanceRecord;
 import android.health.connect.datatypes.ExerciseSessionRecord;
 import android.health.connect.datatypes.HeartRateRecord;
 import android.health.connect.datatypes.Record;
 import android.health.connect.datatypes.RestingHeartRateRecord;
 import android.health.connect.datatypes.SleepSessionRecord;
 import android.health.connect.datatypes.StepsRecord;
-import android.health.connect.datatypes.DistanceRecord;
 import android.health.connect.datatypes.WeightRecord;
 import android.health.connect.datatypes.units.Energy;
 import android.health.connect.datatypes.units.Length;
@@ -42,6 +42,7 @@ import de.fitnesscoach.data.entity.HealthDailyAggregateEntity;
 import de.fitnesscoach.data.entity.HealthRecordEntity;
 import de.fitnesscoach.data.entity.HealthSyncStateEntity;
 import de.fitnesscoach.data.entity.WorkoutEntity;
+import de.fitnesscoach.domain.fitness.DailyHealthAggregator;
 
 /** Blocking synchronization facade. Call only from a background thread. */
 public class HealthSyncService {
@@ -56,6 +57,7 @@ public class HealthSyncService {
     private final HealthSyncDao syncDao;
     private final WorkoutDao workoutDao;
     private final ZoneId zoneId;
+    private final DailyHealthAggregator dailyHealthAggregator;
 
     public HealthSyncService(Context context) {
         Context app = context.getApplicationContext();
@@ -65,15 +67,24 @@ public class HealthSyncService {
         this.syncDao = database.healthSyncDao();
         this.workoutDao = database.workoutDao();
         this.zoneId = ZoneId.systemDefault();
+        this.dailyHealthAggregator = new DailyHealthAggregator(
+                syncDao, workoutDao, database.healthDao(), zoneId, permissions::canRead);
     }
 
     HealthSyncService(HealthConnectManager manager, HealthPermissionManager permissions,
                       HealthSyncDao syncDao, WorkoutDao workoutDao, ZoneId zoneId) {
+        this(manager, permissions, syncDao, workoutDao, zoneId, null);
+    }
+
+    HealthSyncService(HealthConnectManager manager, HealthPermissionManager permissions,
+                      HealthSyncDao syncDao, WorkoutDao workoutDao, ZoneId zoneId,
+                      DailyHealthAggregator dailyHealthAggregator) {
         this.manager = manager;
         this.permissions = permissions;
         this.syncDao = syncDao;
         this.workoutDao = workoutDao;
         this.zoneId = zoneId;
+        this.dailyHealthAggregator = dailyHealthAggregator;
     }
 
     public HealthSyncResult sync() {
@@ -117,6 +128,13 @@ public class HealthSyncService {
             }
             if (permissions.canRead(HealthPermissionSpec.EXERCISE)) {
                 counts.put("exercise", importWorkouts(readAll(ExerciseSessionRecord.class, from, end)));
+            }
+
+            if (dailyHealthAggregator != null) {
+                dailyHealthAggregator.aggregateRange(
+                        LocalDateTime.ofInstant(from, zoneId).toLocalDate(),
+                        LocalDateTime.ofInstant(end, zoneId).toLocalDate(),
+                        Instant.now());
             }
 
             Instant completed = Instant.now();

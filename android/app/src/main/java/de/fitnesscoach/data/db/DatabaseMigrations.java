@@ -18,5 +18,19 @@ public final class DatabaseMigrations {
         }
     };
 
-    public static final Migration[] ALL = new Migration[] {MIGRATION_1_2};
+    public static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE `daily_health` ADD COLUMN `stepsQuality` TEXT");
+            database.execSQL("ALTER TABLE `daily_health` ADD COLUMN `distanceQuality` TEXT");
+            database.execSQL("ALTER TABLE `daily_health` ADD COLUMN `activeCaloriesQuality` TEXT");
+            database.execSQL("ALTER TABLE `daily_health` ADD COLUMN `sleepQuality` TEXT");
+            database.execSQL("ALTER TABLE `daily_health` ADD COLUMN `restingHeartRateQuality` TEXT");
+            database.execSQL("ALTER TABLE `daily_health` ADD COLUMN `averageHeartRateQuality` TEXT");
+            database.execSQL("ALTER TABLE `daily_health` ADD COLUMN `weightQuality` TEXT");
+            database.execSQL("ALTER TABLE `daily_health` ADD COLUMN `exerciseMinutesQuality` TEXT");
+        }
+    };
+
+    public static final Migration[] ALL = new Migration[] {MIGRATION_1_2, MIGRATION_2_3};
 }
