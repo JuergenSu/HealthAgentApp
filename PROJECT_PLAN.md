@@ -1,13 +1,13 @@
 # HealthAgentApp – Project Plan
 
 ## Product vision
-HealthAgentApp is a local-first Android fitness coach. Health and activity data is read from Android Health Connect, normalized and stored locally. Deterministic domain logic calculates baselines, training load, recovery and training-plan adaptations. OpenAI provides the conversational coaching layer through a stateless Java/Spring Boot gateway, but is not the source of truth for health calculations or safety decisions.
+HealthAgentApp is a local-first Android fitness coach. Health and activity data is read from Android Health Connect, normalized and stored locally. Deterministic domain logic calculates baselines, training load, recovery and training-plan adaptations. OpenAI provides the conversational coaching layer through a stateless PHP/Symfony gateway, but is not the source of truth for health calculations or safety decisions.
 
 ## Architecture principles
 1. **Local first:** Health-derived state, goals, plans, check-ins, memory and decisions are stored on the Android device.
 2. **Deterministic fitness engine:** Baselines, load, recovery, workout matching and safety constraints are calculated locally.
 3. **LLM as coach, not database:** OpenAI receives only a minimal structured context and may request explicitly defined tools.
-4. **No OpenAI key in Android:** Android calls a stateless Spring Boot gateway; only the gateway owns the API credential.
+4. **No OpenAI key in Android:** Android calls a stateless PHP gateway; only the gateway owns the API credential.
 5. **Missing is not zero:** Missing, partial and suspect measurements remain explicit states throughout the domain model.
 6. **Fail closed for plan changes:** Agent-requested writes must pass local domain and safety validation.
 7. **Auditable coaching:** Material plan adaptations create CoachDecision records with reason and before/after state.
@@ -24,9 +24,12 @@ HealthAgentApp is a local-first Android fitness coach. Health and activity data 
 - Health Connect SDK
 
 ### Gateway
-- Java 21
-- Spring Boot
-- OpenAI Responses API / official Java SDK
+- PHP 8.3+
+- Symfony 7.4 LTS
+- Composer
+- OpenAI Responses API through an application-owned adapter
+- `openai-php/client` may be used as the community-maintained PHP client behind that adapter
+- PHPUnit
 - Stateless; no health database
 
 ## MVP product scope
@@ -65,7 +68,7 @@ Issues: #1, #2, #3, #27
 
 Exit criteria:
 - Android launches on API 34+
-- Gateway starts on Java 21
+- PHP gateway starts with the documented Symfony/Composer commands
 - Room database and repositories exist
 - OpenAI key cannot appear in Android artifacts
 
@@ -125,11 +128,12 @@ Exit criteria:
 - Useful opt-in notifications work
 
 ### Phase 6 – Conversational coach
-**Outcome:** The user can converse with an agent grounded in local fitness state.
+**Outcome:** The user can converse with an agent grounded in local fitness state through the stateless PHP Coach Gateway.
 
-Issues: #26, #28, #29, #30, #31, #32, #33
+Issues: #26, #27, #28, #29, #30, #31, #32, #33
 
 Exit criteria:
+- PHP/Symfony gateway is stateless and has no health database
 - OpenAI integration uses a versioned coach prompt
 - Minimal allow-listed context is sent
 - Responses/tool calls use structured schemas
@@ -156,7 +160,7 @@ Exit criteria:
 Issues: #41, #44
 
 Exit criteria:
-- Clean checkout builds Android and gateway
+- Clean checkout builds Android and PHP gateway
 - Critical domain rules have automated tests
 - End-to-end happy path passes
 - Defined failure scenarios pass
@@ -194,7 +198,7 @@ Before coding, Codex should:
 3. Inspect existing implementation and tests; do not assume dependencies are implemented merely because an issue exists.
 4. Keep changes inside the issue scope.
 5. Add/update automated tests for changed domain behavior.
-6. Run the relevant Android/gateway build and tests.
+6. Run the relevant Android/PHP gateway build and tests.
 7. Document intentional deviations in the PR.
 
 Codex must not:
@@ -203,6 +207,7 @@ Codex must not:
 - Treat missing Health Connect values as zero.
 - Give the model unrestricted database access.
 - Parse free-form LLM prose to perform writes.
+- Couple Symfony controllers or domain code directly to a community OpenAI client library; use an application adapter.
 - Silently change or discard source health data.
 - Implement Later/V1 features while solving an MVP ticket unless required by a documented dependency.
 
@@ -234,7 +239,7 @@ For every implementation issue:
 6. Generate a conservative plan respecting availability.
 7. Display today's recommendation without an OpenAI call.
 8. Ask the Coach about today's training.
-9. Coach receives minimal context and may use local read tools.
+9. Coach receives minimal context through the PHP gateway and may use local read tools.
 10. User states a constraint such as only 30 minutes available.
 11. Coach requests a structured workout change.
 12. Local validation accepts/rejects the change; successful changes create an audit record.
@@ -247,6 +252,7 @@ For every implementation issue:
 - **Sparse health history:** Use confidence states and conservative planning rather than fabricated precision.
 - **LLM nondeterminism:** Structured schemas plus local validation; never trust prose as a write command.
 - **Sensitive-data leakage:** Allow-list context construction and no raw-health standard logging.
+- **PHP client coupling:** `openai-php/client` is community-maintained, so isolate it behind an adapter to keep replacement feasible.
 - **Planner complexity:** Keep MVP running-focused and deterministic; periodization belongs to V1.
 - **Background restrictions:** WorkManager synchronization is opportunistic and must not be assumed to run at an exact clock time.
 
