@@ -40,6 +40,14 @@
                 android:visibility="gone">
 
                 <TextView
+                    android:id="@+id/health_sync_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/health_sync_never"
+                    android:textAppearance="?attr/textAppearanceBodyMedium" />
+
+                <TextView
                     android:id="@+id/health_permissions_status"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
