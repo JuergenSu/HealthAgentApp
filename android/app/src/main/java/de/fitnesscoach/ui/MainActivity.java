@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private HealthPermissionManager healthPermissionManager;
-    private ActivityResultLauncher<Set<String>> healthPermissionLauncher;
+    private ActivityResultLauncher<Set<? extends String>> healthPermissionLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
