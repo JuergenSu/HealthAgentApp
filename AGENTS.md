@@ -1,7 +1,7 @@
 # AGENTS.md
 
 ## Project
-HealthAgentApp is a local-first Android fitness coach with a Java/Spring Boot OpenAI gateway. Read `PROJECT_PLAN.md` before implementing issues.
+HealthAgentApp is a local-first Android fitness coach with a PHP/Symfony OpenAI gateway. Read `PROJECT_PLAN.md` before implementing issues.
 
 ## Non-negotiable architecture
 - Android application code is Java, minSdk 34, XML + ViewBinding.
@@ -12,7 +12,9 @@ HealthAgentApp is a local-first Android fitness coach with a Java/Spring Boot Op
 - Baselines, training load, recovery, workout matching, plan generation/adaptation and safety validation are deterministic local domain logic.
 - OpenAI is a conversational/explanation layer and may request structured tools; it is not the source of truth for calculations.
 - Android must never contain the OpenAI API key.
-- The Spring Boot gateway is stateless and must not become a remote health database.
+- The gateway is PHP 8.3+ with Symfony 7.4 LTS and Composer.
+- The PHP gateway is stateless and must not become a remote health database.
+- OpenAI access in PHP must be isolated behind an application-owned adapter; do not couple controllers/domain code directly to a community client library.
 - LLM write requests must be structured and pass local domain/safety validation before persistence.
 - Do not give the LLM SQL/Room access.
 - Do not parse free-form prose to infer write operations.
@@ -23,7 +25,7 @@ HealthAgentApp is a local-first Android fitness coach with a Java/Spring Boot Op
 3. Implement only the requested scope and prerequisites genuinely missing from the codebase.
 4. Prefer small domain interfaces around algorithms so they remain independently testable.
 5. Add tests for success, missing-data and relevant failure cases.
-6. Run affected builds/tests before completing the work.
+6. Run affected Android and/or PHP gateway builds/tests before completing the work.
 7. In the PR, state what changed, tests run, assumptions and any deviation from the issue.
 
 ## Testing priorities
@@ -38,7 +40,7 @@ Highest-value tests are deterministic domain tests for:
 - SafetyValidator
 - Agent schema/tool validation
 
-Do not make live OpenAI calls in the default test suite.
+For the PHP gateway use PHPUnit and contract fixtures. Do not make live OpenAI calls in the default test suite.
 
 ## Privacy/security
 - Never commit secrets.
