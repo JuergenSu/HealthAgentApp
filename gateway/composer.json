@@ -1,6 +1,7 @@
 {
   "name": "health-agent/coach-gateway",
   "description": "Stateless PHP gateway for the HealthAgent coach",
+  "license": "proprietary",
   "type": "project",
   "require": {
     "php": ">=8.3",
