@@ -1,0 +1,10 @@
+package de.fitnesscoach.ui.today;
+
+import static org.junit.Assert.*;
+import java.time.*;import java.util.*;import org.junit.Test;import de.fitnesscoach.data.entity.*;import de.fitnesscoach.domain.fitness.DefaultTrainingLoadCalculator;
+
+public class TodayOverviewMapperTest {
+ @Test public void missingMetricsAreUnavailableNotZero(){TodayOverviewUiState s=TodayOverviewMapper.map(LocalDate.of(2026,8,26),null,null,null,Collections.emptyList(),null,Collections.emptyList());assertTrue(s.summary.contains("Sleep: unavailable"));assertTrue(s.summary.contains("Resting HR: unavailable"));assertFalse(s.summary.contains("Sleep: 0"));assertNull(s.reviewableWorkoutId);}
+ @Test public void adaptedPlanAndCompletedWorkoutAreVisible(){LocalDate d=LocalDate.of(2026,8,26);RecoveryEntity r=new RecoveryEntity();r.date=d;r.score=61;r.confidence=DomainEnums.Confidence.MEDIUM;r.recommendation=DomainEnums.RecoveryRecommendation.REDUCED;PlannedWorkoutEntity p=new PlannedWorkoutEntity();p.date=d;p.title="Reduced easy";p.status=DomainEnums.WorkoutStatus.ADAPTED;p.version=2;p.plannedDurationMinutes=30;WorkoutEntity w=new WorkoutEntity();w.id=42;w.status=DomainEnums.WorkoutStatus.COMPLETED;w.startTime=d.atTime(8,0).atZone(ZoneId.systemDefault()).toInstant();TodayOverviewUiState s=TodayOverviewMapper.map(d,null,r,null,Collections.singletonList(p),null,Collections.singletonList(w));assertTrue(s.summary.contains("61/100 · REDUCED"));assertTrue(s.summary.contains("ADAPTED · v2"));assertTrue(s.summary.contains("adapted from deterministic recovery rules"));assertEquals(Long.valueOf(42),s.reviewableWorkoutId);}
+ @Test public void rpeChangesRelativeTrainingLoad(){WorkoutEntity w=new WorkoutEntity();w.durationMinutes=40;w.workoutType=DomainEnums.WorkoutType.EASY;DefaultTrainingLoadCalculator c=new DefaultTrainingLoadCalculator();w.rpe=3;double low=c.workoutLoad(w);w.rpe=8;double high=c.workoutLoad(w);assertTrue(high>low);assertEquals(120d,low,0.001);assertEquals(320d,high,0.001);}
+}
