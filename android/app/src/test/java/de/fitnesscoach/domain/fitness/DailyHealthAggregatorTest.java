@@ -75,7 +75,6 @@ public class DailyHealthAggregatorTest {
     @Test
     public void sleepUsesCalendarDayInConfiguredZoneAndMergesOverlap() {
         FakeHealthSyncDao sync = new FakeHealthSyncDao();
-        // Europe/Berlin starts DST on 2026-03-29. The local calendar day is only 23 hours.
         LocalDate dstDay = LocalDate.of(2026, 3, 29);
         sync.record(record("SLEEP", "2026-03-28T22:30:00Z", "2026-03-29T05:30:00Z", 420.0, null));
         sync.record(record("SLEEP", "2026-03-29T04:30:00Z", "2026-03-29T06:00:00Z", 90.0, null));
@@ -84,7 +83,6 @@ public class DailyHealthAggregatorTest {
 
         DailyHealthEntity result = aggregator.aggregateDay(dstDay, CALCULATED_AT);
 
-        // Local day starts at 23:00Z on March 28; overlapping records union to 23:00Z..06:00Z.
         assertEquals(Integer.valueOf(420), result.sleepMinutes);
         assertEquals(DomainEnums.DataQuality.AVAILABLE, result.sleepQuality);
     }
@@ -172,5 +170,6 @@ public class DailyHealthAggregatorTest {
         @Override public long insertPlanned(PlannedWorkoutEntity entity) { return 0; }
         @Override public void updatePlanned(PlannedWorkoutEntity entity) { }
         @Override public List<PlannedWorkoutEntity> plannedRange(LocalDate from, LocalDate to) { return new ArrayList<>(); }
+        @Override public PlannedWorkoutEntity getPlanned(long id) { return null; }
     }
 }
