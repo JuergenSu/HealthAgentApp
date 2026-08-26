@@ -16,5 +16,6 @@ public final class DatabaseMigrations {
     public static final Migration MIGRATION_3_4 = new Migration(3, 4) { @Override public void migrate(@NonNull SupportSQLiteDatabase database) { database.execSQL("ALTER TABLE `user_profile` ADD COLUMN `preferredSports` TEXT"); }};
     public static final Migration MIGRATION_4_5 = new Migration(4, 5) { @Override public void migrate(@NonNull SupportSQLiteDatabase database) {
         database.execSQL("ALTER TABLE `goals` ADD COLUMN `startingValue` REAL"); database.execSQL("ALTER TABLE `goals` ADD COLUMN `startingUnit` TEXT"); database.execSQL("ALTER TABLE `goals` ADD COLUMN `startingSituation` TEXT"); }};
-    public static final Migration[] ALL = new Migration[] {MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5};
+    public static final Migration MIGRATION_5_6 = new Migration(5, 6) { @Override public void migrate(@NonNull SupportSQLiteDatabase database) { database.execSQL("ALTER TABLE `workouts` ADD COLUMN `reviewNote` TEXT"); }};
+    public static final Migration[] ALL = new Migration[] {MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6};
 }

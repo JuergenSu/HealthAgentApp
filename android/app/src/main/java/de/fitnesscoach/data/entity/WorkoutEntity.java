@@ -19,6 +19,7 @@ public class WorkoutEntity {
     public Double maxHeartRate;
     public Integer averagePaceSecPerKm;
     public Integer rpe;
+    public String reviewNote;
     public String source;
     public String externalRecordId;
     public DomainEnums.WorkoutStatus status;
