@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
+    <!-- Heart-shaped health mark -->
+    <path android:fillColor="#FFFFFF" android:pathData="M54,83 C48,76 25,61 25,43 C25,32 32,25 42,25 C48,25 52,28 54,33 C57,28 61,25 67,25 C77,25 84,32 84,43 C84,61 61,76 54,83 Z"/>
+    <!-- Activity pulse: health data + coaching progress -->
+    <path android:fillColor="#00000000" android:strokeColor="#176B52" android:strokeWidth="5" android:strokeLineCap="round" android:strokeLineJoin="round" android:pathData="M31,53 L42,53 L47,42 L54,65 L61,49 L66,53 L78,53"/>
+    <!-- Small coach/AI spark -->
+    <path android:fillColor="#B8F2D0" android:pathData="M74,27 L76,32 L81,34 L76,36 L74,41 L72,36 L67,34 L72,32 Z"/>
+</vector>
