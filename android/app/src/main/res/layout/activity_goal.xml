@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent">
  <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="24dp">
-  <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Primary fitness goal" android:textAppearance="?attr/textAppearanceHeadlineMedium" />
+  <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/goal_title" android:textAppearance="?attr/textAppearanceHeadlineMedium" />
   <Spinner android:id="@+id/goal_type" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" />
-  <EditText android:id="@+id/goal_title" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Goal description" />
-  <EditText android:id="@+id/goal_target_date" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Target date YYYY-MM-DD (optional)" />
-  <EditText android:id="@+id/goal_target_value" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Target value (optional)" android:inputType="numberDecimal" />
-  <EditText android:id="@+id/goal_target_unit" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Target unit, e.g. minutes, km/week (optional)" />
-  <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="18dp" android:text="Starting situation" android:textAppearance="?attr/textAppearanceTitleMedium" />
-  <EditText android:id="@+id/goal_starting_value" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Starting value (optional)" android:inputType="numberDecimal" />
-  <EditText android:id="@+id/goal_starting_unit" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Starting unit (optional)" />
-  <EditText android:id="@+id/goal_starting_situation" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Describe your current situation (optional)" android:minLines="2" />
+  <EditText android:id="@+id/goal_title" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/goal_description" />
+  <EditText android:id="@+id/goal_target_date" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/goal_target_date" />
+  <EditText android:id="@+id/goal_target_value" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/goal_target_value" android:inputType="numberDecimal" />
+  <EditText android:id="@+id/goal_target_unit" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/goal_target_unit" />
+  <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="18dp" android:text="@string/goal_starting_situation_title" android:textAppearance="?attr/textAppearanceTitleMedium" />
+  <EditText android:id="@+id/goal_starting_value" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/goal_starting_value" android:inputType="numberDecimal" />
+  <EditText android:id="@+id/goal_starting_unit" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/goal_starting_unit" />
+  <EditText android:id="@+id/goal_starting_situation" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/goal_starting_situation" android:minLines="2" />
   <TextView android:id="@+id/goal_status" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" />
   <TextView android:id="@+id/goal_error" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:visibility="gone" />
-  <com.google.android.material.button.MaterialButton android:id="@+id/goal_save" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:text="Save as active primary goal" />
+  <com.google.android.material.button.MaterialButton android:id="@+id/goal_save" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:text="@string/goal_save_active" />
   <LinearLayout android:id="@+id/goal_status_actions" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone">
-   <com.google.android.material.button.MaterialButton android:id="@+id/goal_achieved" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Mark achieved" />
-   <com.google.android.material.button.MaterialButton android:id="@+id/goal_pause" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Pause goal" />
-   <com.google.android.material.button.MaterialButton android:id="@+id/goal_cancel" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Cancel goal" />
+   <com.google.android.material.button.MaterialButton android:id="@+id/goal_achieved" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/goal_mark_achieved" />
+   <com.google.android.material.button.MaterialButton android:id="@+id/goal_pause" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/goal_pause" />
+   <com.google.android.material.button.MaterialButton android:id="@+id/goal_cancel" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/goal_cancel" />
   </LinearLayout>
  </LinearLayout>
 </ScrollView>
