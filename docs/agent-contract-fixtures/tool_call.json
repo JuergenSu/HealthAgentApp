@@ -1,0 +1,1 @@
+{"type":"TOOL_CALL","toolCall":{"id":"call_1","name":"get_today_status","arguments":{}}}
