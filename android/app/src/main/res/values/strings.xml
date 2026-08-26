@@ -2,26 +2,101 @@
 <resources>
     <string name="app_name">HealthAgentApp</string>
 
-    <string name="nav_today">Today</string>
+    <string name="nav_today">Heute</string>
     <string name="nav_plan">Plan</string>
-    <string name="nav_progress">Progress</string>
+    <string name="nav_progress">Fortschritt</string>
     <string name="nav_coach">Coach</string>
-    <string name="nav_profile">Profile</string>
+    <string name="nav_profile">Profil</string>
 
-    <string name="placeholder_today">Daily health and training overview will be implemented in later issues.</string>
-    <string name="placeholder_plan">Training plan will be implemented in later issues.</string>
-    <string name="placeholder_progress">Progress analytics will be implemented in later issues.</string>
-    <string name="placeholder_coach">Conversational coach will be implemented in later issues.</string>
-    <string name="placeholder_profile">Health Connect permissions and synchronization status can be managed below. Other profile settings will be implemented later.</string>
+    <string name="placeholder_today">Tagesübersicht zu Gesundheit und Training.</string>
+    <string name="placeholder_plan">Dein Trainingsplan.</string>
+    <string name="placeholder_progress">Fortschrittsanalyse wird in einem späteren Schritt ergänzt.</string>
+    <string name="placeholder_coach">Der interaktive Coach wird in einem späteren Schritt ergänzt.</string>
+    <string name="placeholder_profile">Hier verwaltest du Profil, Ziele, Health-Connect-Berechtigungen und Synchronisationsstatus.</string>
 
-    <string name="request_health_permissions">Grant health data access</string>
-    <string name="request_optional_health_permissions">Grant history/background access</string>
-    <string name="update_health_data">Update health data</string>
-    <string name="health_connect_unavailable">Health Connect is not available on this device.</string>
-    <string name="health_permission_usage_title">Health Connect access</string>
-    <string name="health_permission_usage_body">HealthAgentApp reads only the health and fitness data you explicitly allow. Data is processed locally for coaching and can be revoked at any time in Health Connect settings.</string>
-    <string name="health_sync_never">Health data has not been synchronized yet.</string>
-    <string name="health_sync_running">Health Connect synchronization is running…</string>
-    <string name="health_sync_last_success">Last successful sync: %1$s</string>
-    <string name="health_sync_failed">Last sync failed. Previously imported data was kept.</string>
+    <string name="request_health_permissions">Zugriff auf Gesundheitsdaten erlauben</string>
+    <string name="request_optional_health_permissions">Verlauf-/Hintergrundzugriff erlauben</string>
+    <string name="update_health_data">Gesundheitsdaten aktualisieren</string>
+    <string name="health_connect_unavailable">Health Connect ist auf diesem Gerät nicht verfügbar.</string>
+    <string name="health_permission_usage_title">Health-Connect-Zugriff</string>
+    <string name="health_permission_usage_body">HealthAgentApp liest nur die Gesundheits- und Fitnessdaten, die du ausdrücklich freigibst. Die Daten werden lokal für das Coaching verarbeitet. Du kannst die Berechtigungen jederzeit in Health Connect widerrufen.</string>
+    <string name="health_sync_never">Gesundheitsdaten wurden noch nicht synchronisiert.</string>
+    <string name="health_sync_running">Health Connect wird synchronisiert…</string>
+    <string name="health_sync_last_success">Letzte erfolgreiche Synchronisierung: %1$s</string>
+    <string name="health_sync_failed">Die letzte Synchronisierung ist fehlgeschlagen. Bereits importierte Daten wurden beibehalten.</string>
+
+    <string name="common_previous">Zurück</string>
+    <string name="common_next">Weiter</string>
+    <string name="common_save">Speichern</string>
+    <string name="common_cancel">Abbrechen</string>
+    <string name="common_unavailable">Nicht verfügbar</string>
+    <string name="common_optional">optional</string>
+
+    <string name="fitness_beginner">Einsteiger</string>
+    <string name="fitness_recreational">Freizeit</string>
+    <string name="fitness_regular">Regelmäßig</string>
+    <string name="fitness_advanced">Fortgeschritten</string>
+    <string name="sport_running">Laufen</string>
+    <string name="sport_walking">Gehen</string>
+    <string name="sport_cycling">Radfahren / Ausgleichstraining</string>
+    <string name="sport_strength">Krafttraining</string>
+
+    <string name="weekday_monday">Montag</string>
+    <string name="weekday_tuesday">Dienstag</string>
+    <string name="weekday_wednesday">Mittwoch</string>
+    <string name="weekday_thursday">Donnerstag</string>
+    <string name="weekday_friday">Freitag</string>
+    <string name="weekday_saturday">Samstag</string>
+    <string name="weekday_sunday">Sonntag</string>
+
+    <string name="onboarding_available_days">Üblicherweise verfügbare Tage</string>
+    <string name="onboarding_max_duration">Typische maximale Trainingsdauer in Minuten</string>
+    <string name="onboarding_goal_hint">z. B. 10 km in unter 55 Minuten laufen</string>
+    <string name="onboarding_health_access">Health-Connect-Zugriff erlauben</string>
+    <string name="onboarding_back">Zurück</string>
+    <string name="onboarding_next">Weiter</string>
+    <string name="onboarding_exit">Einrichtung beenden</string>
+
+    <string name="profile_title">Fitnessprofil</string>
+    <string name="profile_birth_year">Geburtsjahr</string>
+    <string name="profile_sex">Geschlecht (optional)</string>
+    <string name="profile_height">Größe in cm (optional)</string>
+    <string name="profile_sports">Bevorzugte Sportarten</string>
+    <string name="profile_availability">Wöchentliche Verfügbarkeit</string>
+    <string name="profile_save">Profil speichern</string>
+
+    <string name="goal_title">Primäres Fitnessziel</string>
+    <string name="goal_description">Zielbeschreibung</string>
+    <string name="goal_target_date">Zieldatum JJJJ-MM-TT (optional)</string>
+    <string name="goal_target_value">Zielwert (optional)</string>
+    <string name="goal_target_unit">Zieleinheit, z. B. Minuten oder km/Woche (optional)</string>
+    <string name="goal_starting_situation_title">Ausgangssituation</string>
+    <string name="goal_starting_value">Ausgangswert (optional)</string>
+    <string name="goal_starting_unit">Ausgangseinheit (optional)</string>
+    <string name="goal_starting_situation">Aktuelle Situation beschreiben (optional)</string>
+    <string name="goal_save_active">Als aktives Primärziel speichern</string>
+    <string name="goal_mark_achieved">Als erreicht markieren</string>
+    <string name="goal_pause">Ziel pausieren</string>
+    <string name="goal_cancel">Ziel abbrechen</string>
+
+    <string name="review_title">Training bewerten</string>
+    <string name="review_rpe">RPE 1–10 (optional)</string>
+    <string name="review_note">Optionale Notiz</string>
+    <string name="review_save">Bewertung speichern</string>
+    <string name="review_skip">Subjektive Bewertung überspringen</string>
+
+    <string name="plan_previous">Vorherige Woche</string>
+    <string name="plan_next">Nächste Woche</string>
+    <string name="plan_adapt_today">Heutiges Training an Erholung anpassen</string>
+    <string name="plan_diagnostics_title">Diagnose Trainingsplan (Epic 04)</string>
+    <string name="plan_diagnostics_refresh">Plan-Diagnose aktualisieren</string>
+
+    <string name="today_title">Heute</string>
+    <string name="today_ask_coach">Coach fragen</string>
+    <string name="today_review_workout">Abgeschlossenes Training bewerten</string>
+    <string name="today_check_in">Tages-Check-in</string>
+    <string name="today_tester_diagnostics">Tester-Diagnose</string>
+    <string name="today_recalculate">Fitnessbewertung neu berechnen</string>
+    <string name="profile_edit">Fitnessprofil und Verfügbarkeit bearbeiten</string>
+    <string name="goal_manage">Primärziel verwalten</string>
 </resources>
