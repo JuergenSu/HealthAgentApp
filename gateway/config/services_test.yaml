@@ -1,0 +1,2 @@
+services:
+  App\OpenAI\OpenAiClient: '@App\OpenAI\UnavailableOpenAiClient'
