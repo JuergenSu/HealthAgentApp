@@ -1,11 +1,16 @@
 parameters:
   app.openai.api_key: '%env(OPENAI_API_KEY)%'
   app.openai.model: '%env(OPENAI_MODEL)%'
+  app.openai.prompt_path: '%kernel.project_dir%/resources/prompts/coach-v1.txt'
 
 services:
   _defaults:
     autowire: true
     autoconfigure: true
+    bind:
+      $apiKey: '%app.openai.api_key%'
+      $model: '%app.openai.model%'
+      $promptPath: '%app.openai.prompt_path%'
   App\:
     resource: '../src/'
-  App\OpenAI\OpenAiClient: '@App\OpenAI\UnavailableOpenAiClient'
+  App\OpenAI\OpenAiClient: '@App\OpenAI\OpenAiResponsesClient'
