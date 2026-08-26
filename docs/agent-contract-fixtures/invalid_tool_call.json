@@ -1,0 +1,1 @@
+{"type":"TOOL_CALL","toolCall":{"id":"call_bad","name":"read_entire_room_database","arguments":{}}}
