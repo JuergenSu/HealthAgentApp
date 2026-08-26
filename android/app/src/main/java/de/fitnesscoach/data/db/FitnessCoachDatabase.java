@@ -13,7 +13,7 @@ import de.fitnesscoach.data.dao.ProfileDao;
 import de.fitnesscoach.data.dao.WorkoutDao;
 import de.fitnesscoach.data.entity.*;
 
-@Database(entities = {UserProfileEntity.class, GoalEntity.class, TrainingAvailabilityEntity.class, DailyHealthEntity.class, WorkoutEntity.class, PlannedWorkoutEntity.class, CheckInEntity.class, BaselineEntity.class, RecoveryEntity.class, CoachMemoryEntity.class, CoachDecisionEntity.class, HealthRecordEntity.class, HealthDailyAggregateEntity.class, HealthSyncStateEntity.class}, version = 5, exportSchema = true)
+@Database(entities = {UserProfileEntity.class, GoalEntity.class, TrainingAvailabilityEntity.class, DailyHealthEntity.class, WorkoutEntity.class, PlannedWorkoutEntity.class, CheckInEntity.class, BaselineEntity.class, RecoveryEntity.class, CoachMemoryEntity.class, CoachDecisionEntity.class, HealthRecordEntity.class, HealthDailyAggregateEntity.class, HealthSyncStateEntity.class}, version = 6, exportSchema = true)
 @TypeConverters(RoomConverters.class)
 public abstract class FitnessCoachDatabase extends RoomDatabase {
  public abstract ProfileDao profileDao(); public abstract GoalDao goalDao(); public abstract HealthDao healthDao(); public abstract HealthSyncDao healthSyncDao(); public abstract WorkoutDao workoutDao(); public abstract CoachingDao coachingDao();
