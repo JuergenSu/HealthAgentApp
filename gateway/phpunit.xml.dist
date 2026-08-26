@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="vendor/autoload.php" colors="true">
+  <php>
+    <env name="APP_ENV" value="test"/>
+    <env name="APP_DEBUG" value="0"/>
+    <env name="APP_SECRET" value="test-secret"/>
+    <env name="KERNEL_CLASS" value="App\Kernel"/>
+    <env name="OPENAI_API_KEY" value="test-not-used"/>
+    <env name="OPENAI_MODEL" value="test-model"/>
+  </php>
+  <testsuites>
+    <testsuite name="gateway">
+      <directory>tests</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>
