@@ -1,30 +1,3 @@
 package de.fitnesscoach.data.repository;
-
-import java.time.LocalDate;
-import java.util.List;
-import de.fitnesscoach.data.entity.*;
-
-public interface FitnessCoachRepository {
-    UserProfileEntity getProfile();
-    void saveProfile(UserProfileEntity profile);
-    List<TrainingAvailabilityEntity> getAvailability();
-    void saveAvailability(TrainingAvailabilityEntity availability);
-    GoalEntity getActiveGoal();
-    long insertGoal(GoalEntity goal);
-    DailyHealthEntity getDailyHealth(LocalDate date);
-    void saveDailyHealth(DailyHealthEntity health);
-    List<WorkoutEntity> getWorkouts();
-    long insertWorkout(WorkoutEntity workout);
-    List<PlannedWorkoutEntity> getPlannedWorkouts(LocalDate from, LocalDate to);
-    long insertPlannedWorkout(PlannedWorkoutEntity workout);
-    CheckInEntity getCheckIn(LocalDate date);
-    void saveCheckIn(CheckInEntity checkIn);
-    BaselineEntity getBaseline(String metric, int windowDays);
-    void saveBaseline(BaselineEntity baseline);
-    RecoveryEntity getRecovery(LocalDate date);
-    void saveRecovery(RecoveryEntity recovery);
-    List<CoachMemoryEntity> getActiveMemories();
-    long insertMemory(CoachMemoryEntity memory);
-    List<CoachDecisionEntity> getDecisions();
-    long insertDecision(CoachDecisionEntity decision);
-}
+import java.time.LocalDate;import java.util.List;import de.fitnesscoach.data.entity.*;
+public interface FitnessCoachRepository{UserProfileEntity getProfile();void saveProfile(UserProfileEntity p);List<TrainingAvailabilityEntity>getAvailability();void saveAvailability(TrainingAvailabilityEntity a);GoalEntity getActiveGoal();long insertGoal(GoalEntity g);DailyHealthEntity getDailyHealth(LocalDate d);void saveDailyHealth(DailyHealthEntity h);List<WorkoutEntity>getWorkouts();long insertWorkout(WorkoutEntity w);void updateWorkout(WorkoutEntity w);List<PlannedWorkoutEntity>getPlannedWorkouts(LocalDate f,LocalDate t);long insertPlannedWorkout(PlannedWorkoutEntity w);void updatePlannedWorkout(PlannedWorkoutEntity w);CheckInEntity getCheckIn(LocalDate d);void saveCheckIn(CheckInEntity c);BaselineEntity getBaseline(String m,int w);void saveBaseline(BaselineEntity b);RecoveryEntity getRecovery(LocalDate d);void saveRecovery(RecoveryEntity r);List<CoachMemoryEntity>getActiveMemories();long insertMemory(CoachMemoryEntity m);List<CoachDecisionEntity>getDecisions();long insertDecision(CoachDecisionEntity d);}
