@@ -1,144 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp">
-
-        <TextView
-            android:id="@+id/onboarding_progress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?attr/textAppearanceLabelLarge" />
-
-        <TextView
-            android:id="@+id/onboarding_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:textAppearance="?attr/textAppearanceHeadlineMedium" />
-
-        <TextView
-            android:id="@+id/onboarding_body"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:textAppearance="?attr/textAppearanceBodyLarge" />
-
-        <RadioGroup
-            android:id="@+id/fitness_level_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:visibility="gone">
-            <RadioButton android:id="@+id/fitness_beginner" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Beginner" />
-            <RadioButton android:id="@+id/fitness_recreational" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Recreational" />
-            <RadioButton android:id="@+id/fitness_regular" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Regular" />
-            <RadioButton android:id="@+id/fitness_advanced" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Advanced" />
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="24dp">
+        <TextView android:id="@+id/onboarding_progress" android:layout_width="match_parent" android:layout_height="wrap_content" android:textAppearance="?attr/textAppearanceLabelLarge" />
+        <TextView android:id="@+id/onboarding_title" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:textAppearance="?attr/textAppearanceHeadlineMedium" />
+        <TextView android:id="@+id/onboarding_body" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:textAppearance="?attr/textAppearanceBodyLarge" />
+        <RadioGroup android:id="@+id/fitness_level_group" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:visibility="gone">
+            <RadioButton android:id="@+id/fitness_beginner" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/fitness_beginner" />
+            <RadioButton android:id="@+id/fitness_recreational" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/fitness_recreational" />
+            <RadioButton android:id="@+id/fitness_regular" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/fitness_regular" />
+            <RadioButton android:id="@+id/fitness_advanced" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/fitness_advanced" />
         </RadioGroup>
-
-        <LinearLayout
-            android:id="@+id/sports_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical"
-            android:visibility="gone">
-            <CheckBox android:id="@+id/sport_running" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Running" />
-            <CheckBox android:id="@+id/sport_walking" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Walking" />
-            <CheckBox android:id="@+id/sport_cycling" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Cycling / cross-training" />
-            <CheckBox android:id="@+id/sport_strength" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Strength" />
+        <LinearLayout android:id="@+id/sports_group" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:orientation="vertical" android:visibility="gone">
+            <CheckBox android:id="@+id/sport_running" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/sport_running" />
+            <CheckBox android:id="@+id/sport_walking" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/sport_walking" />
+            <CheckBox android:id="@+id/sport_cycling" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/sport_cycling" />
+            <CheckBox android:id="@+id/sport_strength" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/sport_strength" />
         </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/availability_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical"
-            android:visibility="gone">
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Days normally available" />
-            <CheckBox android:id="@+id/day_mon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Monday" />
-            <CheckBox android:id="@+id/day_tue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Tuesday" />
-            <CheckBox android:id="@+id/day_wed" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Wednesday" />
-            <CheckBox android:id="@+id/day_thu" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Thursday" />
-            <CheckBox android:id="@+id/day_fri" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Friday" />
-            <CheckBox android:id="@+id/day_sat" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Saturday" />
-            <CheckBox android:id="@+id/day_sun" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Sunday" />
-            <EditText
-                android:id="@+id/availability_duration"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:hint="Typical maximum duration in minutes"
-                android:inputType="number" />
+        <LinearLayout android:id="@+id/availability_group" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:orientation="vertical" android:visibility="gone">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/onboarding_available_days" />
+            <CheckBox android:id="@+id/day_mon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/weekday_monday" />
+            <CheckBox android:id="@+id/day_tue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/weekday_tuesday" />
+            <CheckBox android:id="@+id/day_wed" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/weekday_wednesday" />
+            <CheckBox android:id="@+id/day_thu" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/weekday_thursday" />
+            <CheckBox android:id="@+id/day_fri" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/weekday_friday" />
+            <CheckBox android:id="@+id/day_sat" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/weekday_saturday" />
+            <CheckBox android:id="@+id/day_sun" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/weekday_sunday" />
+            <EditText android:id="@+id/availability_duration" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="@string/onboarding_max_duration" android:inputType="number" />
         </LinearLayout>
-
-        <EditText
-            android:id="@+id/primary_goal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:hint="e.g. Run 10 km in under 55 minutes"
-            android:visibility="gone" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/onboarding_health_permissions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Grant Health Connect access"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/onboarding_status"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:textAppearance="?attr/textAppearanceBodyMedium"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/onboarding_error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:textAppearance="?attr/textAppearanceBodyMedium"
-            android:visibility="gone" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:orientation="horizontal">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/onboarding_back"
-                style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Back" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/onboarding_next"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_weight="1"
-                android:text="Next" />
+        <EditText android:id="@+id/primary_goal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:hint="@string/onboarding_goal_hint" android:visibility="gone" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/onboarding_health_permissions" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="@string/onboarding_health_access" android:visibility="gone" />
+        <TextView android:id="@+id/onboarding_status" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:textAppearance="?attr/textAppearanceBodyMedium" android:visibility="gone" />
+        <TextView android:id="@+id/onboarding_error" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:textAppearance="?attr/textAppearanceBodyMedium" android:visibility="gone" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="28dp" android:orientation="horizontal">
+            <com.google.android.material.button.MaterialButton android:id="@+id/onboarding_back" style="?attr/materialButtonOutlinedStyle" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/onboarding_back" />
+            <com.google.android.material.button.MaterialButton android:id="@+id/onboarding_next" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:text="@string/onboarding_next" />
         </LinearLayout>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/onboarding_exit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Exit setup" />
-
+        <com.google.android.material.button.MaterialButton android:id="@+id/onboarding_exit" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="@string/onboarding_exit" />
     </LinearLayout>
 </ScrollView>

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent">
  <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="24dp">
-  <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Fitness profile" android:textAppearance="?attr/textAppearanceHeadlineMedium" />
-  <EditText android:id="@+id/profile_birth_year" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Birth year" android:inputType="number" />
-  <EditText android:id="@+id/profile_sex" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Sex (optional)" />
-  <EditText android:id="@+id/profile_height" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Height cm (optional)" android:inputType="numberDecimal" />
+  <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/profile_title" android:textAppearance="?attr/textAppearanceHeadlineMedium" />
+  <EditText android:id="@+id/profile_birth_year" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/profile_birth_year" android:inputType="number" />
+  <EditText android:id="@+id/profile_sex" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/profile_sex" />
+  <EditText android:id="@+id/profile_height" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/profile_height" android:inputType="numberDecimal" />
   <Spinner android:id="@+id/profile_fitness_level" android:layout_width="match_parent" android:layout_height="wrap_content" />
-  <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:text="Preferred sports" android:textAppearance="?attr/textAppearanceTitleMedium" />
-  <CheckBox android:id="@+id/profile_running" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Running" />
-  <CheckBox android:id="@+id/profile_walking" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Walking" />
-  <CheckBox android:id="@+id/profile_cycling" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Cycling" />
-  <CheckBox android:id="@+id/profile_strength" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Strength" />
-  <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:text="Weekly availability" android:textAppearance="?attr/textAppearanceTitleMedium" />
+  <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:text="@string/profile_sports" android:textAppearance="?attr/textAppearanceTitleMedium" />
+  <CheckBox android:id="@+id/profile_running" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/sport_running" />
+  <CheckBox android:id="@+id/profile_walking" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/sport_walking" />
+  <CheckBox android:id="@+id/profile_cycling" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/sport_cycling" />
+  <CheckBox android:id="@+id/profile_strength" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/sport_strength" />
+  <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:text="@string/profile_availability" android:textAppearance="?attr/textAppearanceTitleMedium" />
   <LinearLayout android:id="@+id/profile_availability_rows" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" />
   <TextView android:id="@+id/profile_error" android:layout_width="match_parent" android:layout_height="wrap_content" android:visibility="gone" />
-  <com.google.android.material.button.MaterialButton android:id="@+id/profile_save" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="Save profile" />
+  <com.google.android.material.button.MaterialButton android:id="@+id/profile_save" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="@string/profile_save" />
  </LinearLayout>
 </ScrollView>

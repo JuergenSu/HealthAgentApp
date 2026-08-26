@@ -18,6 +18,9 @@ HealthAgentApp is a local-first Android fitness coach with a PHP/Symfony OpenAI 
 - LLM write requests must be structured and pass local domain/safety validation before persistence.
 - Do not give the LLM SQL/Room access.
 - Do not parse free-form prose to infer write operations.
+- **German is the default product language. All user-visible Android UI, validation/error copy, tester diagnostics and normal Coach prose must be German. Internal enum/database/API/tool identifiers may remain English but must be mapped to German presentation labels.**
+- Static Android UI copy should live in string resources instead of hard-coded English literals where practical.
+- The Coach system prompt must request German responses unless a future explicit user language preference selects another language.
 
 ## Working an issue
 1. Read the issue, its parent epic, `PROJECT_PLAN.md`, and referenced dependency issues.
@@ -27,6 +30,7 @@ HealthAgentApp is a local-first Android fitness coach with a PHP/Symfony OpenAI 
 5. Add tests for success, missing-data and relevant failure cases.
 6. Run affected Android and/or PHP gateway builds/tests before completing the work.
 7. In the PR, state what changed, tests run, assumptions and any deviation from the issue.
+8. For any user-visible feature, verify German presentation and avoid exposing raw English enum values.
 
 ## Testing priorities
 Highest-value tests are deterministic domain tests for:
@@ -39,6 +43,7 @@ Highest-value tests are deterministic domain tests for:
 - Plan adaptation
 - SafetyValidator
 - Agent schema/tool validation
+- German presentation mapping for user-visible states
 
 For the PHP gateway use PHPUnit and contract fixtures. Do not make live OpenAI calls in the default test suite.
 
