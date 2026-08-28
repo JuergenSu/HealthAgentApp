@@ -2,3 +2,5 @@
 /.env
 /.env.local
 /.phpunit.cache/
+/build/
+/config/config.local.php

@@ -1,0 +1,11 @@
+<?php
+declare(strict_types=1);
+
+// Copy this file to config.local.php and keep that file private / unversioned.
+return [
+    'OPENAI_API_KEY' => 'replace-me',
+    'OPENAI_MODEL' => 'gpt-5.6',
+    'COACH_CORS_ORIGINS' => [],
+    'APP_DEBUG' => false,
+    // 'APP_RUNTIME_DIR' => '/absolute/writable/path',
+];

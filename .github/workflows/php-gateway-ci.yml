@@ -14,6 +14,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['8.2', '8.3']
     defaults:
       run:
         working-directory: gateway
@@ -21,7 +24,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: ${{ matrix.php }}
           coverage: none
       - name: Validate Composer configuration
         run: composer validate --strict
@@ -29,3 +32,60 @@ jobs:
         run: composer install --no-interaction --prefer-dist
       - name: Run tests
         run: composer test
+
+  package-webspace:
+    needs: test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: gateway
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          coverage: none
+      - name: Install production dependencies
+        run: composer install --no-dev --no-interaction --prefer-dist --classmap-authoritative
+      - name: Build deployable webspace ZIP
+        run: bash bin/build-webspace.sh
+      - name: Verify deployment contents
+        run: |
+          set -euo pipefail
+          test -f build/coach-gateway/vendor/autoload.php
+          test -f build/coach-gateway/resources/prompts/coach-v1.txt
+          test -f build/coach-gateway/config/config.local.php.example
+          test ! -e build/coach-gateway/tests
+          test ! -e build/coach-gateway/bin
+          test ! -e build/coach-gateway/composer.json
+          test ! -e build/coach-gateway/composer.lock
+          test ! -e build/coach-gateway/config/config.local.php
+          unzip -l build/health-agent-php-gateway.zip | grep -q 'coach-gateway/vendor/autoload.php'
+      - name: Smoke-test packaged gateway without Composer or Symfony CLI
+        run: |
+          set -euo pipefail
+          APP_ENV=prod APP_DEBUG=0 OPENAI_API_KEY='' OPENAI_MODEL=test-model \
+            php -S 127.0.0.1:18085 -t build/coach-gateway build/coach-gateway/index.php >/tmp/health-agent-gateway.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for i in {1..20}; do
+            if curl -fsS http://127.0.0.1:18085/health >/tmp/health.json; then
+              break
+            fi
+            sleep 0.25
+          done
+          curl -fsS http://127.0.0.1:18085/health >/tmp/health.json
+          php -r '$d=json_decode(file_get_contents("/tmp/health.json"), true, 512, JSON_THROW_ON_ERROR); if (($d["status"] ?? null) !== "ok") { exit(1); }'
+          status=$(curl -sS -o /tmp/invalid.json -w '%{http_code}' -X POST \
+            -H 'Content-Type: application/json' \
+            --data '{"message":"","context":{}}' \
+            http://127.0.0.1:18085/api/v1/coach)
+          test "$status" = '400'
+          php -r '$d=json_decode(file_get_contents("/tmp/invalid.json"), true, 512, JSON_THROW_ON_ERROR); if (($d["error"]["code"] ?? null) !== "INVALID_REQUEST") { exit(1); }'
+      - name: Upload directly deployable gateway
+        uses: actions/upload-artifact@v4
+        with:
+          name: health-agent-php-gateway
+          path: gateway/build/health-agent-php-gateway.zip
+          if-no-files-found: error
+          retention-days: 14
