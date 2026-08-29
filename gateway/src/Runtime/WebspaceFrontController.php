@@ -5,7 +5,6 @@ namespace App\Runtime;
 
 use App\Kernel;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 final class WebspaceFrontController
@@ -23,7 +22,7 @@ final class WebspaceFrontController
             // Symfony's verbose debug exception pages are deliberately disabled on the public gateway,
             // because they can expose environment/server metadata. APP_DEBUG enables only safe logging below.
             $kernel = new Kernel($config['appEnv'], false);
-            $request = Request::createFromGlobals();
+            $request = WebspaceRequestFactory::fromGlobals();
             $response = $kernel->handle($request, KernelInterface::MAIN_REQUEST, true);
         } catch (\Throwable $error) {
             self::logSafely($debug, $error);
