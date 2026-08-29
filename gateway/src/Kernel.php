@@ -10,6 +10,15 @@ final class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
 
+    public function getProjectDir(): string
+    {
+        // The deployable shared-hosting artifact intentionally does not contain composer.json.
+        // Symfony's default project-dir discovery would therefore walk up the filesystem and,
+        // on a standalone webspace, fall back to src/. That makes config/routes.yaml invisible.
+        // Pin the project root explicitly to the directory containing src/.
+        return dirname(__DIR__);
+    }
+
     public function getCacheDir(): string
     {
         return $this->runtimeDir().'/cache/'.$this->environment;
