@@ -20,6 +20,10 @@ final class WebspaceFrontController
             $config = SharedHostingConfig::load($projectDir);
             $debug = $config['debug'];
 
+            // Normalize shared-hosting subdirectory deployments before HttpFoundation
+            // derives base URL and path info from the server variables.
+            $_SERVER = SharedHostingRequestNormalizer::normalize($_SERVER);
+
             // Symfony's verbose debug exception pages are deliberately disabled on the public gateway,
             // because they can expose environment/server metadata. APP_DEBUG enables only safe logging below.
             $kernel = new Kernel($config['appEnv'], false);
