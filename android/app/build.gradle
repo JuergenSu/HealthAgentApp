@@ -2,7 +2,8 @@ plugins {
     id 'com.android.application'
 }
 
-def coachGatewayUrl = System.getenv('COACH_GATEWAY_URL') ?: (project.findProperty('coachGatewayUrl') ?: '')
+def defaultCoachGatewayUrl = 'https://res-arkana.com/gateway/'
+def coachGatewayUrl = System.getenv('COACH_GATEWAY_URL') ?: (project.findProperty('coachGatewayUrl') ?: defaultCoachGatewayUrl)
 
 android {
     namespace 'de.fitnesscoach'
