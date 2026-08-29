@@ -28,6 +28,20 @@ cp -R "$ROOT/vendor" "$STAGE/vendor"
 rm -f "$STAGE/.env" "$STAGE/.env.local" "$STAGE/config/config.local.php"
 rm -f "$STAGE/config/services_test.yaml"
 
+# Generate a content-derived deployment id. Hosters commonly keep /tmp between
+# FTP uploads, so this id is used by Kernel to isolate Symfony's prod cache per
+# actual deployment without requiring shell access on the target system.
+deployment_id="$(
+  cd "$STAGE"
+  {
+    find src config resources public -type f ! -name 'deployment.id' -print
+    printf '%s\n' index.php .htaccess
+  } | LC_ALL=C sort | while IFS= read -r file; do
+    sha256sum "$file"
+  done | sha256sum | awk '{print $1}'
+)"
+printf '%s\n' "$deployment_id" > "$STAGE/config/deployment.id"
+
 # Fail the build if development-only content accidentally enters the artifact.
 for forbidden in tests bin .git composer.json composer.lock phpunit.xml phpunit.xml.dist .phpunit.cache; do
   if [[ -e "$STAGE/$forbidden" ]]; then
@@ -36,8 +50,8 @@ for forbidden in tests bin .git composer.json composer.lock phpunit.xml phpunit.
   fi
 done
 
-if [[ ! -f "$STAGE/vendor/autoload.php" || ! -f "$STAGE/resources/prompts/coach-v1.txt" ]]; then
-  echo "Deployment ist unvollständig (vendor/autoload.php oder coach-v1 Prompt fehlt)." >&2
+if [[ ! -f "$STAGE/vendor/autoload.php" || ! -f "$STAGE/resources/prompts/coach-v1.txt" || ! -s "$STAGE/config/deployment.id" ]]; then
+  echo "Deployment ist unvollständig (vendor/autoload.php, coach-v1 Prompt oder deployment.id fehlt)." >&2
   exit 1
 fi
 

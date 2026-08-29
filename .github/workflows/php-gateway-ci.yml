@@ -49,23 +49,38 @@ jobs:
         run: composer install --no-dev --no-interaction --prefer-dist --classmap-authoritative
       - name: Build deployable webspace ZIP
         run: bash bin/build-webspace.sh
-      - name: Verify deployment contents
+      - name: Verify deployment contents and cache isolation
         run: |
           set -euo pipefail
           test -f build/coach-gateway/vendor/autoload.php
           test -f build/coach-gateway/resources/prompts/coach-v1.txt
           test -f build/coach-gateway/config/config.local.php.example
+          test -s build/coach-gateway/config/deployment.id
+          grep -Eq '^[a-f0-9]{64}$' build/coach-gateway/config/deployment.id
           test ! -e build/coach-gateway/tests
           test ! -e build/coach-gateway/bin
           test ! -e build/coach-gateway/composer.json
           test ! -e build/coach-gateway/composer.lock
           test ! -e build/coach-gateway/config/config.local.php
           unzip -l build/health-agent-php-gateway.zip | grep -q 'coach-gateway/vendor/autoload.php'
-      - name: Smoke-test packaged gateway without Composer or Symfony CLI
+          unzip -l build/health-agent-php-gateway.zip | grep -q 'coach-gateway/config/deployment.id'
+
+          original_id=$(cat build/coach-gateway/config/deployment.id)
+          cache_a=$(php -r 'require "build/coach-gateway/vendor/autoload.php"; echo (new App\Kernel("prod", false))->getCacheDir();')
+          printf '%064d\n' 0 > build/coach-gateway/config/deployment.id
+          cache_b=$(php -r 'require "build/coach-gateway/vendor/autoload.php"; echo (new App\Kernel("prod", false))->getCacheDir();')
+          printf '%s\n' "$original_id" > build/coach-gateway/config/deployment.id
+          test "$cache_a" != "$cache_b"
+      - name: Smoke-test packaged gateway in isolated webspace
         run: |
           set -euo pipefail
+          rm -rf /tmp/health-agent-isolated
+          mkdir -p /tmp/health-agent-isolated
+          unzip -q build/health-agent-php-gateway.zip -d /tmp/health-agent-isolated
+          test ! -e /tmp/health-agent-isolated/coach-gateway/composer.json
+          test -s /tmp/health-agent-isolated/coach-gateway/config/deployment.id
           APP_ENV=prod APP_DEBUG=0 OPENAI_API_KEY='' OPENAI_MODEL=test-model \
-            php -S 127.0.0.1:18085 -t build/coach-gateway build/coach-gateway/index.php >/tmp/health-agent-gateway.log 2>&1 &
+            php -S 127.0.0.1:18085 -t /tmp/health-agent-isolated/coach-gateway /tmp/health-agent-isolated/coach-gateway/index.php >/tmp/health-agent-gateway.log 2>&1 &
           server_pid=$!
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
           for i in {1..20}; do
